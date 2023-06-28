@@ -1,23 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-<xsl:template match="/">
-<html> 
-<body>
-  <h2>My CD Collection</h2>
-  <table border="1">
-    <tr bgcolor="#9acd32">
-      <th style="text-align:left">Title</th>
-      <th style="text-align:left">Artist</th>
-    </tr>
-    <xsl:for-each select="catalog/cd">
-    <tr>
-      <td><xsl:value-of select="title"/></td>
-      <td><xsl:value-of select="artist"/></td>
-    </tr>
-    </xsl:for-each>
-  </table>
-</body>
-</html>
-</xsl:template>
-</xsl:stylesheet>
+<!DOCTYPE html>
+<html>
 
+<head>
+  <script>
+    function loadXMLDoc(filename) {
+      if (window.ActiveXObject) {
+        xhttp = new ActiveXObject("Msxml2.XMLHTTP");
+      } else {
+        xhttp = new XMLHttpRequest();
+      }
+      xhttp.open("GET", filename, false);
+      try { xhttp.responseType = "msxml-document" } catch (err) { } // Helping IE11
+      xhttp.send("");
+      return xhttp.responseXML;
+    }
+
+    function displayResult() {
+      let xml = loadXMLDoc("cdcatalog.xml");
+      let xsl = loadXMLDoc("cdcatalog.xsl");
+      // code for IE
+      if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
+        let ex = xml.transformNode(xsl);
+        document.getElementById("xmlApp").innerHTML = ex;
+      }
+      // code for Chrome, Firefox, Opera, etc.
+      else if (document.implementation && document.implementation.createDocument) {
+        let xsltProcessor = new XSLTProcessor();
+        xsltProcessor.importStylesheet(xsl);
+        let resultDocument = xsltProcessor.transformToFragment(xml, document);
+        document.getElementById("xmlApp").appendChild(resultDocument);
+      }
+    }
+  </script>
+</head>
+
+<body onload="displayResult()">
+  <div id="xmlApp" />
+</body>
+
+</html>
