@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="cdcatalog.xsl"?>
 <catalog>
-  <cd>
-    <title>Empire Burlesque</title>
+  <cd xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title
+      xlink:type="simple"
+      xlink:href="https://www.w3schools.com/xml/xml_xlink.asp"
+      xlink:show="new"
+    >Empire Burlesque</title>
     <artist>Bob Dylan</artist>
     <country>USA</country>
     <company>Columbia</company>
